@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Certificate Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>📜 Automated Certificate Generator</h1>
+        <p>Upload a CSV file containing participant names.</p>
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <label>Choose CSV File</label>
+            <input type="file" name="csvfile" accept=".csv" required>
+            <button type="submit">Upload CSV</button>
+        </form>
+    </div>
+</body>
+</html>
