@@ -3,13 +3,12 @@ import pandas as pd
 import mysql.connector
 from PIL import Image, ImageDraw, ImageFont
 import os
-app = Flask(__name__)
-# Connect to MySQL
 conn = mysql.connector.connect(
-    host='localhost',
-    user='root',
-    password='Root@1234',   # put your MySQL password here
-    database='certificate_db'
+    host=os.environ.get('MYSQLHOST'),
+    user=os.environ.get('MYSQLUSER'),
+    password=os.environ.get('MYSQLPASSWORD'),
+    database=os.environ.get('MYSQLDATABASE'),
+    port=int(os.environ.get('MYSQLPORT'))
 )
 cursor = conn.cursor()
 # Home page
@@ -45,4 +44,4 @@ def upload():
     conn.commit()
     return '<h2>Certificates Generated Successfully!</h2><br><br>' + '<br>'.join(generated_files)
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
