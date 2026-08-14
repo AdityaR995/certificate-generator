@@ -4,10 +4,8 @@ import mysql.connector
 from PIL import Image, ImageDraw, ImageFont
 import os
 
-# Create Flask application
 app = Flask(__name__)
 
-# Connect to MySQL
 conn = mysql.connector.connect(
     host=os.environ.get('MYSQLHOST'),
     user=os.environ.get('MYSQLUSER'),
@@ -25,7 +23,6 @@ def home():
 @app.route('/upload', methods=['POST'])
 def upload():
     file = request.files['csvfile']
-
     df = pd.read_csv(file)
 
     generated_files = []
