@@ -38,7 +38,7 @@ def upload():
         img = Image.open('certificate_templates/template.png')
         draw = ImageDraw.Draw(img)
 
-        font = ImageFont.truetype('arial.ttf', 70)
+        font = ImageFont.load_default()
 
         draw.text((800, 530), name, fill='black', font=font)
 
