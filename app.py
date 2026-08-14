@@ -6,6 +6,7 @@ import os
 
 app = Flask(__name__)
 
+# MySQL connection
 conn = mysql.connector.connect(
     host=os.environ.get('MYSQLHOST'),
     user=os.environ.get('MYSQLUSER'),
@@ -16,9 +17,11 @@ conn = mysql.connector.connect(
 
 cursor = conn.cursor()
 
+
 @app.route('/')
 def home():
     return render_template('index.html')
+
 
 @app.route('/upload', methods=['POST'])
 def upload():
@@ -26,6 +29,8 @@ def upload():
     df = pd.read_csv(file)
 
     generated_files = []
+
+    os.makedirs("generated", exist_ok=True)
 
     for index, row in df.iterrows():
         name = row['name']
@@ -40,19 +45,20 @@ def upload():
 
         font = ImageFont.load_default()
 
-        draw.text((800, 530), name, fill='black', font=font)
-
-
-        filename = name.replace(' ', '_') + '.png'
-        output_path = os.path.join('generated', filename)
-
+        x = 500
+        y = 300
+        draw.text((x, y), name, fill="black", font=font)
+        output_path = f"generated/{name}.png"
         img.save(output_path)
-        generated_files.append(filename)
+
+        generated_files.append(output_path)
 
     conn.commit()
 
-    return '<h2>Certificates Generated Successfully!</h2><br><br>' + '<br>'.join(generated_files)
-
+    return (
+        '<h2>Certificates Generated Successfully!</h2><br><br>'
+        + '<br>'.join(generated_files)
+    )
 
 if __name__ == '__main__':
     app.run(
